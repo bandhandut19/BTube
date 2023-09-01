@@ -8,7 +8,12 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.5.1/dist/full.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<style>
 
+    .active{
+        background-color: red;
+    }
+</style>
 <body>
 <header class="mx-auto w-4/5 pt-10">
     <nav id="navbar" class="flex justify-between">
@@ -20,7 +25,7 @@
             </button>
         </div>
         <div class="blogBtn">
-            <button id="blogBtn" class="btn-error p-2 px-4 rounded">Blog</button>
+            <button id="blogBtn" class="btn-error p-2 px-4 rounded"><a href="./blog.html">Blog</a></button>
         </div>
     </nav>
     <hr class="mt-10 ">
@@ -101,7 +106,7 @@
 
 
     <script src="./js/categories.js"></script>
-    <script src="./js/contents.js"></script>
+    <script src="./js/blog.js"></script>
 </body>
 
 </html>

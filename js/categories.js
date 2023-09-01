@@ -16,7 +16,7 @@ function emptyCatagory() {
 async function loadCatagories(selectedPage = '', providedCategoryName = '', providedCategoryID = 0) {
 
     const main = document.getElementById('main')
-    while(main.firstChild){
+    while (main.firstChild) {
         main.removeChild(main.firstChild)
     }
 
@@ -80,33 +80,79 @@ function displayCatagories(catagories, providedCategoryName, providedCategoryID)
         catagories.forEach(singleCategory => {
             const categoryConatiner = document.createElement('div')
             categoryConatiner.innerHTML = `
-            <button id="${singleCategory.category}" class="btn-primary bg-slate-200 rounded hover:bg-red-600 text-black p-2 px-10 "> 
+            <button id="${singleCategory.category}" class="btn-primary bg-slate-200 rounded hover:bg-red-200 text-black p-2 px-10 "> 
             ${singleCategory.category}
              </button>
             `
             catagoriesContainer.appendChild(categoryConatiner)
         })
 
+        function activeCategory(buttonName,prevBtnColor='', currentBtnColor='') {
+            buttonName.classList.remove(prevBtnColor)
+            buttonName.classList.add(currentBtnColor)
+            
+        }
+
+        const allBtn = document.getElementById('All')
+        allBtn.classList.remove('bg-slate-200')
+        allBtn.classList.add('active')
+        allBtn.addEventListener('click', () => {
+            // these buttons will not active
+            activeCategory(musicBtn,'active','bg-slate-200')
+            activeCategory(comedyBtn,'active','bg-slate-200')
+            activeCategory(drawingBtn,'active','bg-slate-200')
+
+
+            //only this button is active 
+            activeCategory(allBtn,'bg-slate-200','active')
+
+            loadCatagories("category", '', 1000)
+        })
         const musicBtn = document.getElementById('Music')
         musicBtn.addEventListener('click', () => {
+            // these buttons will not active
+            activeCategory(allBtn,'active','bg-slate-200')
+            activeCategory(comedyBtn,'active','bg-slate-200')
+            activeCategory(drawingBtn,'active','bg-slate-200')
+
+
+            //only this button is active 
+            activeCategory(musicBtn,'bg-slate-200','active')
+
             loadCatagories("category", '', 1001)
         })
 
 
-        const allBtn = document.getElementById('All')
-        allBtn.addEventListener('click', () => {
-            loadCatagories("category", '', 1000)
-        })
 
         const comedyBtn = document.getElementById('Comedy')
         comedyBtn.addEventListener('click', () => {
+            // these buttons will not active
+            activeCategory(musicBtn,'active','bg-slate-200')
+            activeCategory(drawingBtn,'active','bg-slate-200')
+            activeCategory(allBtn,'active','bg-slate-200')
+
+            //only this button is active 
+            activeCategory(comedyBtn,'bg-slate-200','active')
+
             loadCatagories("category", '', 1003)
         })
 
         const drawingBtn = document.getElementById('Drawing')
         drawingBtn.addEventListener('click', () => {
+            // these buttons will not active
+            activeCategory(comedyBtn,'active','bg-slate-200')
+            activeCategory(allBtn,'active','bg-slate-200')
+            activeCategory(musicBtn,'active','bg-slate-200')
+
+            //only this button is active 
+            activeCategory(drawingBtn,'bg-slate-200','active')
+
             loadCatagories("category", '', 1005)
         })
+
+        // active button show
+
+       
 
 
 
@@ -139,7 +185,7 @@ function displayCatagories(catagories, providedCategoryName, providedCategoryID)
             <div id="name">
             ${card.authors[0].profile_name}
             </div>
-            <div class=${card.authors[0].verified != false ? "":"hidden" } id="verifiedBlueTick">
+            <div class=${card.authors[0].verified != false ? "" : "hidden"} id="verifiedBlueTick">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"
             fill="none">
             <g clip-path="url(#clip0_11_34)">
@@ -166,10 +212,11 @@ function displayCatagories(catagories, providedCategoryName, providedCategoryID)
                 
                 `
             displayCards.appendChild(singleCard)
-           
-        })
+
+        }
+        )
     }
-    
+
 
 
 }
