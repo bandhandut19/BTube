@@ -76,6 +76,9 @@ function displayCatagories(catagories, providedCategoryName, providedCategoryID)
     let displayCards = document.getElementById('displayCards')
     // const categoryID =singleCategory.category_id
     // const categoryName = singleCategory.category
+
+    // category features starts
+
     if (providedCategoryName === '' && providedCategoryID === 0) {
         catagories.forEach(singleCategory => {
             const categoryConatiner = document.createElement('div')
@@ -87,10 +90,10 @@ function displayCatagories(catagories, providedCategoryName, providedCategoryID)
             catagoriesContainer.appendChild(categoryConatiner)
         })
 
-        function activeCategory(buttonName,prevBtnColor='', currentBtnColor='') {
+        function activeCategory(buttonName, prevBtnColor = '', currentBtnColor = '') {
             buttonName.classList.remove(prevBtnColor)
             buttonName.classList.add(currentBtnColor)
-            
+
         }
 
         const allBtn = document.getElementById('All')
@@ -98,26 +101,26 @@ function displayCatagories(catagories, providedCategoryName, providedCategoryID)
         allBtn.classList.add('active')
         allBtn.addEventListener('click', () => {
             // these buttons will not active
-            activeCategory(musicBtn,'active','bg-slate-200')
-            activeCategory(comedyBtn,'active','bg-slate-200')
-            activeCategory(drawingBtn,'active','bg-slate-200')
+            activeCategory(musicBtn, 'active', 'bg-slate-200')
+            activeCategory(comedyBtn, 'active', 'bg-slate-200')
+            activeCategory(drawingBtn, 'active', 'bg-slate-200')
 
 
             //only this button is active 
-            activeCategory(allBtn,'bg-slate-200','active')
+            activeCategory(allBtn, 'bg-slate-200', 'active')
 
             loadCatagories("category", '', 1000)
         })
         const musicBtn = document.getElementById('Music')
         musicBtn.addEventListener('click', () => {
             // these buttons will not active
-            activeCategory(allBtn,'active','bg-slate-200')
-            activeCategory(comedyBtn,'active','bg-slate-200')
-            activeCategory(drawingBtn,'active','bg-slate-200')
+            activeCategory(allBtn, 'active', 'bg-slate-200')
+            activeCategory(comedyBtn, 'active', 'bg-slate-200')
+            activeCategory(drawingBtn, 'active', 'bg-slate-200')
 
 
             //only this button is active 
-            activeCategory(musicBtn,'bg-slate-200','active')
+            activeCategory(musicBtn, 'bg-slate-200', 'active')
 
             loadCatagories("category", '', 1001)
         })
@@ -127,12 +130,12 @@ function displayCatagories(catagories, providedCategoryName, providedCategoryID)
         const comedyBtn = document.getElementById('Comedy')
         comedyBtn.addEventListener('click', () => {
             // these buttons will not active
-            activeCategory(musicBtn,'active','bg-slate-200')
-            activeCategory(drawingBtn,'active','bg-slate-200')
-            activeCategory(allBtn,'active','bg-slate-200')
+            activeCategory(musicBtn, 'active', 'bg-slate-200')
+            activeCategory(drawingBtn, 'active', 'bg-slate-200')
+            activeCategory(allBtn, 'active', 'bg-slate-200')
 
             //only this button is active 
-            activeCategory(comedyBtn,'bg-slate-200','active')
+            activeCategory(comedyBtn, 'bg-slate-200', 'active')
 
             loadCatagories("category", '', 1003)
         })
@@ -140,26 +143,19 @@ function displayCatagories(catagories, providedCategoryName, providedCategoryID)
         const drawingBtn = document.getElementById('Drawing')
         drawingBtn.addEventListener('click', () => {
             // these buttons will not active
-            activeCategory(comedyBtn,'active','bg-slate-200')
-            activeCategory(allBtn,'active','bg-slate-200')
-            activeCategory(musicBtn,'active','bg-slate-200')
+            activeCategory(comedyBtn, 'active', 'bg-slate-200')
+            activeCategory(allBtn, 'active', 'bg-slate-200')
+            activeCategory(musicBtn, 'active', 'bg-slate-200')
 
             //only this button is active 
-            activeCategory(drawingBtn,'bg-slate-200','active')
+            activeCategory(drawingBtn, 'bg-slate-200', 'active')
 
             loadCatagories("category", '', 1005)
         })
-
-        // active button show
-
-       
-
-
-
-
-
-
     }
+    // category features ends
+
+
     else if (providedCategoryName === '' && (providedCategoryID === 1000 || providedCategoryID === 1001 || providedCategoryID === 1002 || providedCategoryID === 1003)) {
         catagories.forEach(card => {
             const singleCard = document.createElement('div')
@@ -167,7 +163,14 @@ function displayCatagories(catagories, providedCategoryName, providedCategoryID)
             singleCard.classList.add('bg-slate-100')
             singleCard.classList.add('shadow-2xl')
             singleCard.innerHTML = `
-            <figure><img class="h-52 w-full" src=${card.thumbnail}></figure>
+            <figure>
+            <img class="h-52 w-full" src=${card.thumbnail}>
+            <div id="datePosted" class="absolute mt-36 ml-28 ${card.others.posted_date === "" ? "hidden":""}">
+                <h2 class="bg-slate-700 text-white font-bold rounded p-1 px-5">
+                ${Math.floor(parseInt(card.others.posted_date)/3600)}hrs ${Math.floor((parseInt(card.others.posted_date)%3600)/60)} min ago
+                </h2>
+            </div>
+            </figure>
             <div class="card-body">
             <div id="details" class="flex items-center gap-3">
             <!-- user image beside the title of the video in a circular shape -->
@@ -208,15 +211,12 @@ function displayCatagories(catagories, providedCategoryName, providedCategoryID)
             <h2>${card.others.views} views</h2>
             </div>
             </div>
-            </div>
-                
-                `
+            </div>`
             displayCards.appendChild(singleCard)
-
         }
         )
     }
-
+    
 
 
 }
