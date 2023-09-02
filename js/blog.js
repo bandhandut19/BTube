@@ -4,8 +4,8 @@ const blogBtn = document.getElementById('blogBtn')
 
 
 
-const blogsContainer = document.getElementById('blogPosts')
 
+const blogsContainer = document.getElementById('blogPosts')
 function createBlogPost(blogWritings = '',title="New Blog Title",image='') {
 
     const singleBlogPost = document.createElement('div')

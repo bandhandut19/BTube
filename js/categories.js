@@ -1,20 +1,6 @@
+// DATA LOAD FUNCTION
 
-function emptyCatagory() {
-    const main = document.getElementById('main')
-    const emptyDisplay = document.createElement('div')
-    emptyDisplay.innerHTML = `
-        <div class="flex justify-center items-center gap-5 flex-col text-center mt-40"> 
-        <img class="w-fit" src="./Icon.png">
-        <h2 class="text-2xl font-bold">Oops!! Sorry, There is no content here </h2>
-        </div>
-        `
-    main.appendChild(emptyDisplay)
-
-}
-
-
-async function loadCatagories(selectedPage = '', providedCategoryName = '', providedCategoryID = 0) {
-
+function removeAll() {
     const main = document.getElementById('main')
     while (main.firstChild) {
         main.removeChild(main.firstChild)
@@ -24,8 +10,15 @@ async function loadCatagories(selectedPage = '', providedCategoryName = '', prov
     while (displayCards.firstChild) {
         displayCards.removeChild(displayCards.firstChild);
     }
+}
+
+let currentPage=1000;
+
+async function loadCatagories(selectedPage = '', providedCategoryName = '', providedCategoryID = 0) {
+
 
     if (selectedPage != '' && providedCategoryID != '' && providedCategoryName != 0) {
+        removeAll()
         const url = await fetch(`https://openapi.programming-hero.com/api/videos/${selectedPage}/${providedCategoryName}/${providedCategoryID}`)
         const res = await url.json()
         const catagories = await res.data
@@ -40,6 +33,7 @@ async function loadCatagories(selectedPage = '', providedCategoryName = '', prov
         }
     }
     else if (selectedPage != '' && providedCategoryID === 0 && providedCategoryName === '') {
+        removeAll()
         const url = await fetch(`https://openapi.programming-hero.com/api/videos/${selectedPage}`)
         const res = await url.json()
         const catagories = await res.data
@@ -53,32 +47,33 @@ async function loadCatagories(selectedPage = '', providedCategoryName = '', prov
         }
     }
     else {
+        removeAll()
         const url = await fetch(`https://openapi.programming-hero.com/api/videos/${selectedPage}/${providedCategoryID}`)
         const res = await url.json()
         const catagories = await res.data
         const lengthCount = [...catagories]
-
         if (lengthCount.length === 0) {
             emptyCatagory()
         }
         else {
+            removeAll()
 
             displayCatagories(catagories, providedCategoryName, providedCategoryID)
         }
     }
 }
 
+// DATA DISPLAY FUNCTION
 
 function displayCatagories(catagories, providedCategoryName, providedCategoryID) {
-
     const catagoriesContainer = document.getElementById('categories')
-
     let displayCards = document.getElementById('displayCards')
+
     // const categoryID =singleCategory.category_id
     // const categoryName = singleCategory.category
 
-    // category features starts
 
+    // category features starts
     if (providedCategoryName === '' && providedCategoryID === 0) {
         catagories.forEach(singleCategory => {
             const categoryConatiner = document.createElement('div')
@@ -105,7 +100,7 @@ function displayCatagories(catagories, providedCategoryName, providedCategoryID)
             activeCategory(comedyBtn, 'active', 'bg-slate-200')
             activeCategory(drawingBtn, 'active', 'bg-slate-200')
 
-
+            currentPage = 1000;
             //only this button is active 
             activeCategory(allBtn, 'bg-slate-200', 'active')
 
@@ -118,7 +113,7 @@ function displayCatagories(catagories, providedCategoryName, providedCategoryID)
             activeCategory(comedyBtn, 'active', 'bg-slate-200')
             activeCategory(drawingBtn, 'active', 'bg-slate-200')
 
-
+            currentPage = 1001;
             //only this button is active 
             activeCategory(musicBtn, 'bg-slate-200', 'active')
 
@@ -136,7 +131,7 @@ function displayCatagories(catagories, providedCategoryName, providedCategoryID)
 
             //only this button is active 
             activeCategory(comedyBtn, 'bg-slate-200', 'active')
-
+            currentPage = 1003;
             loadCatagories("category", '', 1003)
         })
 
@@ -149,12 +144,11 @@ function displayCatagories(catagories, providedCategoryName, providedCategoryID)
 
             //only this button is active 
             activeCategory(drawingBtn, 'bg-slate-200', 'active')
-
+            currentPage = 1005;
             loadCatagories("category", '', 1005)
         })
     }
     // category features ends
-
 
     else if (providedCategoryName === '' && (providedCategoryID === 1000 || providedCategoryID === 1001 || providedCategoryID === 1002 || providedCategoryID === 1003)) {
         catagories.forEach(card => {
@@ -165,9 +159,9 @@ function displayCatagories(catagories, providedCategoryName, providedCategoryID)
             singleCard.innerHTML = `
             <figure>
             <img class="h-52 w-full" src=${card.thumbnail}>
-            <div id="datePosted" class="absolute mt-36 ml-28 ${card.others.posted_date === "" ? "hidden":""}">
+            <div id="datePosted" class="absolute mt-36 ml-28 ${card.others.posted_date === "" ? "hidden" : ""}">
                 <h2 class="bg-slate-700 text-white font-bold rounded p-1 px-5">
-                ${Math.floor(parseInt(card.others.posted_date)/3600)}hrs ${Math.floor((parseInt(card.others.posted_date)%3600)/60)} min ago
+                ${Math.floor(parseInt(card.others.posted_date) / 3600)}hrs ${Math.floor((parseInt(card.others.posted_date) % 3600) / 60)} min ago
                 </h2>
             </div>
             </figure>
@@ -216,16 +210,57 @@ function displayCatagories(catagories, providedCategoryName, providedCategoryID)
         }
         )
     }
-    
 
 
 }
 
+//  EMPTY DATA DISPLAY
 
+function emptyCatagory() {
+    const main = document.getElementById('main')
+    const emptyDisplay = document.createElement('div')
+    emptyDisplay.innerHTML = `
+        <div class="flex justify-center items-center gap-5 flex-col text-center mt-40"> 
+        <img class="w-fit" src="./Icon.png">
+        <h2 class="text-2xl font-bold">Oops!! Sorry, There is no content here </h2>
+        </div>
+        `
+    main.appendChild(emptyDisplay)
+
+}
+
+// LOADING & DISPLAYING ALL DATA
 
 loadCatagories("categories") /* it will load all the categories name in the categoryField at the beginning */
 
 loadCatagories("category", '', 1000) /** it will load all categories at the beginning */
 
+
+// SORT
+
+
+const sortBtn = document.getElementById('sortByView')
+
+async function sort(categoryId) {
+    const url = await fetch(`https://openapi.programming-hero.com/api/videos/category/${categoryId}`)
+    const data = await url.json()
+    const mainData = data.data
+    // const newView = parseInt(singleData.others.views.split('k')[0]);
+    // const arrayMainData = Array.from(mainData)
+    mainData.sort((a,b)=> {
+        const B = parseFloat((b.others.views || '0').replace('k',''))
+        const A = parseFloat((a.others.views || '0').replace('k',''))
+        return B - A
+    }
+    )
+    displayCatagories(mainData,'',categoryId)
+    console.log(mainData)
+    
+}
+
+sortBtn.addEventListener('click',()=>{
+    displayCards.innerHTML=''
+    sort(currentPage)
+})
 
 
