@@ -254,7 +254,6 @@ async function sort(categoryId) {
     }
     )
     displayCatagories(mainData,'',categoryId)
-    console.log(mainData)
     
 }
 
